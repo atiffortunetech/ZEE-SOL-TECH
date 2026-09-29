@@ -1,0 +1,45 @@
+import { siteConfig } from "@/config/site";
+import { portfolioProjects } from "@/config/portfolio";
+
+export default function sitemap() {
+  const base = siteConfig.url.replace(/\/$/, "");
+  const now = new Date();
+
+  const staticRoutes: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] = [
+    { path: "", priority: 1, changeFrequency: "weekly" },
+    { path: "/services", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/services/branding", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/web-development", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/software-development", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/crm", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/dashboard-development", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/services/mobile-app-development", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/saas-development", priority: 0.85, changeFrequency: "monthly" },
+    { path: "/services/ui-ux", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/pricing", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/portfolio", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/about", priority: 0.7, changeFrequency: "monthly" },
+    { path: "/process", priority: 0.65, changeFrequency: "monthly" },
+    { path: "/contact", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/faq", priority: 0.7, changeFrequency: "monthly" },
+    { path: "/website-questionnaire", priority: 0.5, changeFrequency: "monthly" },
+    { path: "/logo-questionnaire", priority: 0.5, changeFrequency: "monthly" },
+    { path: "/privacy-policy", priority: 0.2, changeFrequency: "yearly" },
+    { path: "/terms", priority: 0.2, changeFrequency: "yearly" },
+  ];
+
+  return [
+    ...staticRoutes.map((route) => ({
+      url: `${base}${route.path}`,
+      lastModified: now,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    })),
+    ...portfolioProjects.map((project) => ({
+      url: `${base}/portfolio/${project.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+    })),
+  ];
+}
