@@ -1,3 +1,4 @@
+import type { BlogPost } from "@/config/blog";
 import { faqItems, type FAQItem } from "@/config/faq";
 import { pricingGroups } from "@/config/packages";
 import { siteConfig } from "@/config/site";
@@ -41,6 +42,48 @@ export function faqPageSchema(items: FAQItem[] = faqItems, path = "/faq") {
         text: item.answer,
       },
     })),
+  };
+}
+
+export function articleSchema(post: BlogPost) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  return {
+    "@type": "BlogPosting",
+    "@id": `${url}/#article`,
+    headline: post.title,
+    description: post.description,
+    image: [absoluteUrl(post.image)],
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/brand/icon.png"),
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    articleSection: post.category,
+    keywords: post.keywords.join(", "),
+    wordCount: post.sections.reduce(
+      (count, section) =>
+        count +
+        section.paragraphs.join(" ").split(/\s+/).length +
+        (section.bullets?.join(" ").split(/\s+/).length ?? 0),
+      0,
+    ),
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${absoluteUrl("/blog")}/#blog` },
+    about: { "@id": orgId() },
   };
 }
 

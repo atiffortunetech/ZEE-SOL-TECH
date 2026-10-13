@@ -1,3 +1,4 @@
+import { getAllBlogPosts } from "@/config/blog";
 import { siteConfig } from "@/config/site";
 import { portfolioProjects } from "@/config/portfolio";
 
@@ -18,6 +19,7 @@ export default function sitemap() {
     { path: "/services/ui-ux", priority: 0.8, changeFrequency: "monthly" },
     { path: "/pricing", priority: 0.9, changeFrequency: "weekly" },
     { path: "/portfolio", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/blog", priority: 0.85, changeFrequency: "weekly" },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/process", priority: 0.65, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.8, changeFrequency: "monthly" },
@@ -40,6 +42,12 @@ export default function sitemap() {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.55,
+    })),
+    ...getAllBlogPosts().map((post) => ({
+      url: `${base}/blog/${post.slug}`,
+      lastModified: new Date(post.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }

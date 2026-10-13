@@ -194,6 +194,19 @@ export const pageKeywords = {
     "brand intake form",
     "logo project questionnaire",
   ],
+  blog: [
+    ...defaultKeywords,
+    "ZEE Sol Tech blog",
+    "software development blog",
+    "website development tips",
+    "CRM and SaaS insights",
+    "UI UX design articles",
+    "branding and logo design tips",
+    "mobile app MVP guide",
+    "SEO friendly website checklist",
+    "custom software development advice",
+    "hire digital agency insights",
+  ],
 } as const;
 
 export const seoConfig = {
@@ -226,6 +239,8 @@ export function createMetadata({
   image,
   noIndex = false,
   type = "website",
+  publishedTime,
+  modifiedTime,
 }: {
   title?: string;
   description?: string;
@@ -234,6 +249,8 @@ export function createMetadata({
   image?: string;
   noIndex?: boolean;
   type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
 } = {}): Metadata {
   const fullTitle = title
     ? `${title} | ${siteConfig.name}`
@@ -275,6 +292,13 @@ export function createMetadata({
           alt: `${siteConfig.name} — ${title ?? siteConfig.tagline}`,
         },
       ],
+      ...(type === "article" && publishedTime
+        ? {
+            publishedTime,
+            modifiedTime: modifiedTime ?? publishedTime,
+            authors: [siteConfig.name],
+          }
+        : {}),
     },
     twitter: {
       ...seoConfig.twitter,

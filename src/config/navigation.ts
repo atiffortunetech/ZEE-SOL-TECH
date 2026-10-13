@@ -272,9 +272,10 @@ export const navigation = [
   { label: "About", href: "/about", number: "02" },
   { label: "Services", href: "/services", number: "03" },
   { label: "Portfolio", href: "/portfolio", number: "04" },
-  { label: "Packages", href: "/pricing", number: "05" },
-  { label: "Process", href: "/process", number: "06" },
-  { label: "Contact", href: "/contact", number: "07" },
+  { label: "Blog", href: "/blog", number: "05" },
+  { label: "Packages", href: "/pricing", number: "06" },
+  { label: "Process", href: "/process", number: "07" },
+  { label: "Contact", href: "/contact", number: "08" },
 ];
 
 export const serviceMegaMenu = {
@@ -356,6 +357,7 @@ export const footerLinks = {
   company: [
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
+    { label: "Blog", href: "/blog" },
     { label: "Process", href: "/process" },
     { label: "Contact", href: "/contact" },
   ],
@@ -374,6 +376,7 @@ export const footerLinks = {
     { label: "Custom Systems", href: "/services/software-development" },
   ],
   resources: [
+    { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
     { label: "Pricing", href: "/pricing" },
     { label: "Website Questionnaire", href: "/website-questionnaire" },
