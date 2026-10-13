@@ -9,7 +9,7 @@ function smtpPort() {
 export function createMailTransport() {
   const user = process.env.SMTP_USER || process.env.EMAIL_USER || "";
   const pass = process.env.SMTP_PASS || process.env.EMAIL_PASSWORD || "";
-  // Hostinger Email uses smtp.hostinger.com; Titan-backed mailboxes use smtp.titan.email
+  // Hostinger mailbox SMTP (hPanel → Emails)
   const host = process.env.SMTP_HOST || "smtp.hostinger.com";
   const port = smtpPort();
   const secure =
