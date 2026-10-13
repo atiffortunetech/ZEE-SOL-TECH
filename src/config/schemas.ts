@@ -74,16 +74,39 @@ export function articleSchema(post: BlogPost) {
     },
     articleSection: post.category,
     keywords: post.keywords.join(", "),
-    wordCount: post.sections.reduce(
-      (count, section) =>
-        count +
-        section.paragraphs.join(" ").split(/\s+/).length +
-        (section.bullets?.join(" ").split(/\s+/).length ?? 0),
-      0,
-    ),
+    wordCount: [
+      ...post.sections.flatMap((section) => [
+        ...section.paragraphs,
+        ...(section.bullets ?? []),
+        ...(section.subsections?.flatMap((sub) => [
+          ...sub.paragraphs,
+          ...(sub.bullets ?? []),
+        ]) ?? []),
+      ]),
+      ...post.faqs.flatMap((faq) => [faq.question, faq.answer]),
+    ]
+      .join(" ")
+      .split(/\s+/)
+      .filter(Boolean).length,
     inLanguage: "en-US",
     isPartOf: { "@id": `${absoluteUrl("/blog")}/#blog` },
     about: { "@id": orgId() },
+  };
+}
+
+export function blogFaqSchema(post: BlogPost) {
+  if (!post.faqs.length) return null;
+  return {
+    "@type": "FAQPage",
+    "@id": `${absoluteUrl(`/blog/${post.slug}`)}/#faq`,
+    mainEntity: post.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 }
 

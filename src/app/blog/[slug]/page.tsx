@@ -15,7 +15,7 @@ import {
   getBlogPostBySlug,
   getRelatedBlogPosts,
 } from "@/config/blog";
-import { articleSchema, breadcrumbList } from "@/config/schemas";
+import { articleSchema, blogFaqSchema, breadcrumbList } from "@/config/schemas";
 import { createMetadata, defaultKeywords } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 
@@ -63,6 +63,7 @@ export default async function BlogPostPage({
         id={`blog-${post.slug}-jsonld`}
         data={[
           articleSchema(post),
+          ...(blogFaqSchema(post) ? [blogFaqSchema(post)!] : []),
           breadcrumbList([
             { name: "Home", path: "/" },
             { name: "Blog", path: "/blog" },
@@ -174,7 +175,7 @@ export default async function BlogPostPage({
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
                     On this page
                   </p>
-                  <nav className="mt-3 space-y-2" aria-label="Article sections">
+                  <nav className="mt-3 max-h-[50vh] space-y-2 overflow-y-auto pr-1" aria-label="Article sections">
                     {post.sections.map((section) => (
                       <a
                         key={section.heading}
@@ -184,6 +185,14 @@ export default async function BlogPostPage({
                         {section.heading}
                       </a>
                     ))}
+                    {post.faqs.length ? (
+                      <a
+                        href="#frequently-asked-questions"
+                        className="block text-sm text-foreground/75 transition hover:text-accent"
+                      >
+                        Frequently asked questions
+                      </a>
+                    ) : null}
                   </nav>
                 </div>
               </aside>
