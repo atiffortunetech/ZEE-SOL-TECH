@@ -9,6 +9,7 @@ function smtpPort() {
 export function createMailTransport() {
   const user = process.env.SMTP_USER || process.env.EMAIL_USER || "";
   const pass = process.env.SMTP_PASS || process.env.EMAIL_PASSWORD || "";
+  // Hostinger Email uses smtp.hostinger.com; Titan-backed mailboxes use smtp.titan.email
   const host = process.env.SMTP_HOST || "smtp.hostinger.com";
   const port = smtpPort();
   const secure =
@@ -16,9 +17,9 @@ export function createMailTransport() {
       ? process.env.SMTP_SECURE === "true"
       : port === 465;
 
-  if (!user || !pass) {
+  if (!user || !pass || pass === "YOUR_HOSTINGER_EMAIL_PASSWORD") {
     throw new Error(
-      "Missing SMTP credentials. Set SMTP_USER and SMTP_PASS in .env.local (Hostinger email password for sales@zeesoltech.com).",
+      "Missing SMTP credentials. Set SMTP_USER and SMTP_PASS in Hostinger Environment Variables (mailbox password for sales@zeesoltech.com).",
     );
   }
 
@@ -26,7 +27,16 @@ export function createMailTransport() {
     host,
     port,
     secure,
+    requireTLS: !secure && port === 587,
     auth: { user, pass },
+    connectionTimeout: 30_000,
+    greetingTimeout: 30_000,
+    socketTimeout: 60_000,
+    tls: {
+      // SNI must match the SMTP hostname Hostinger expects
+      servername: host,
+      minVersion: "TLSv1.2",
+    },
   });
 }
 
