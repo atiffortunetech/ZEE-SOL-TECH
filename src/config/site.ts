@@ -15,8 +15,8 @@ export const siteConfig = {
 
   contact: {
     email: "sales@zeesoltech.com",
-    phone: "+1 (929) 323-2861",
-    whatsapp: "19293232861",
+    phone: "+1 (346) 419-6303",
+    whatsapp: "13464196303",
     location: "United States",
     scheduleUrl: "",
   },
