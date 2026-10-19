@@ -9,9 +9,9 @@ export function SeoTopicCluster() {
     <section className="border-y border-border bg-white py-16 md:py-24">
       <Container>
         <SectionHeading
-          eyebrow="What we rank for — and build"
-          title="Explore the services buyers search for"
-          description="Clear paths into website development, branding, custom software, CRM, SaaS, and product design — the topics our clients hire us for."
+          eyebrow="Primary services"
+          title="Website development company · Logo design agency · Custom CRM development"
+          description="These are the services buyers search for most — and the pages we optimize around. Explore website builds, branding, CRM software, SaaS, and product design."
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {seoTopicCluster.map((topic) => (

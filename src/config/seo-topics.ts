@@ -1,35 +1,37 @@
+import { primaryKeywords } from "./target-keywords";
+
 /**
  * Homepage / footer topic cluster — keyword-rich internal links that
  * reinforce money pages without stuffing a single URL.
  */
 export const seoTopicCluster = [
   {
-    title: "Website design & development",
+    title: "Website development company",
     description:
-      "Conversion-focused business websites, e-commerce builds, and SEO-ready page structure.",
+      "ZEE Sol Tech builds SEO-friendly business websites, landing pages, and e-commerce stores that convert visitors into leads.",
     href: "/services/web-development",
     keywords: ["website development company", "SEO friendly website", "business website design"],
   },
   {
-    title: "Logo & brand identity",
+    title: "Logo design agency",
     description:
-      "Memorable marks, brand systems, and guidelines that stay consistent everywhere.",
+      "Professional logo design and brand identity systems that look sharp on web, packaging, social, and product UI.",
     href: "/services/branding",
-    keywords: ["logo design agency", "brand identity design", "visual identity"],
+    keywords: ["logo design agency", "brand identity design", "professional logo design"],
   },
   {
-    title: "Custom software & CRM",
+    title: "Custom CRM development",
     description:
-      "Workflow software, sales pipelines, and internal tools shaped around how you operate.",
+      "Custom CRM software for pipelines, lead follow-ups, automation, and reporting — built around how your team sells.",
+    href: "/services/crm",
+    keywords: ["custom CRM development", "CRM development company", "sales pipeline software"],
+  },
+  {
+    title: "Custom software & SaaS",
+    description:
+      "Workflow software, multi-tenant SaaS MVPs, and internal tools shaped for real operations.",
     href: "/services/software-development",
-    keywords: ["custom software development", "CRM development", "business automation"],
-  },
-  {
-    title: "SaaS & mobile products",
-    description:
-      "MVP-to-scale product engineering for multi-tenant SaaS and iOS/Android apps.",
-    href: "/services/saas-development",
-    keywords: ["SaaS development company", "mobile app development", "product MVP"],
+    keywords: ["custom software development", "SaaS development company", "business automation"],
   },
   {
     title: "UI/UX & dashboards",
@@ -47,10 +49,12 @@ export const seoTopicCluster = [
   },
 ] as const;
 
+/** Footer “Popular searches” — primary keywords first */
 export const footerSeoLinks = [
-  { label: "Website development company", href: "/services/web-development" },
-  { label: "Logo design agency", href: "/services/branding" },
-  { label: "Custom CRM software", href: "/services/crm" },
+  ...primaryKeywords.map((item) => ({
+    label: item.keyword,
+    href: item.path,
+  })),
   { label: "SaaS MVP development", href: "/services/saas-development" },
   { label: "Mobile app development", href: "/services/mobile-app-development" },
   { label: "UI UX design services", href: "/services/ui-ux" },

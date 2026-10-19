@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "./site";
+import { primaryKeywordList } from "./target-keywords";
 
 export const defaultKeywords = [
+  ...primaryKeywordList,
   "ZEE Sol Tech",
   "zeesoltech",
   "zeesoltech.com",
@@ -15,7 +17,6 @@ export const defaultKeywords = [
   "mobile app development",
   "dashboard development",
   "brand identity design",
-  "logo design agency",
   "e-commerce website development",
   "digital product studio",
   "business automation software",
@@ -29,11 +30,12 @@ export const defaultKeywords = [
 export const pageKeywords = {
   home: [
     ...defaultKeywords,
-    "hire software development company",
+    "hire website development company",
+    "hire logo design agency",
+    "hire custom CRM development team",
     "full service digital agency",
     "startup product development",
     "SME digital transformation",
-    "end to end product design and development",
     "best software house for startups",
   ],
   about: [

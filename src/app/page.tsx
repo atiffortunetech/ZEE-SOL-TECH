@@ -26,9 +26,9 @@ import { homeContent } from "@/config/page-content";
 import { createMetadata, pageKeywords } from "@/config/seo";
 import { faqPageSchema, webPageSchema } from "@/config/schemas";
 
-const homeTitle = "Web Design & Custom Software";
+const homeTitle = "Website, Logo & CRM Experts";
 const homeDescription =
-  "ZEE Sol Tech is a software house for logo design, website development, custom software, CRM, SaaS, dashboards, and mobile apps — built to convert and scale.";
+  "ZEE Sol Tech is a website development company, logo design agency, and custom CRM development partner — plus SaaS, software, and mobile apps that convert and scale.";
 
 export const metadata: Metadata = createMetadata({
   title: homeTitle,
