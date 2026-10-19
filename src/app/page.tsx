@@ -23,7 +23,7 @@ import { homeContent } from "@/config/page-content";
 import { createMetadata, pageKeywords } from "@/config/seo";
 import { faqPageSchema, webPageSchema } from "@/config/schemas";
 
-const homeTitle = "Software House, Web Design & Custom Development";
+const homeTitle = "Web Design & Custom Software";
 const homeDescription =
   "ZEE Sol Tech builds brand identities, conversion-focused websites, custom software, CRM systems, SaaS platforms, dashboards, and mobile apps for startups and growing businesses.";
 
@@ -42,7 +42,7 @@ export default function HomePage() {
         data={[
           webPageSchema({
             path: "/",
-            name: `${homeTitle} | ${siteConfig.name}`,
+            name: homeTitle,
             description: homeDescription,
           }),
           faqPageSchema(faqItems.slice(0, 6), "/"),

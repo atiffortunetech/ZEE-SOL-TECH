@@ -223,7 +223,7 @@ export const featuredWork = [
     title: "Finance OS",
     summary: "Mobile finance UI built for trust, speed, and everyday decision-making.",
     href: "/portfolio",
-    image: "/portfolio/websites/finance mobile app mockup front.jpg",
+    image: "/portfolio/websites/finance-mobile-app-mockup-front.jpg",
   },
   {
     number: "04",

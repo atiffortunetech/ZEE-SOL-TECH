@@ -8,7 +8,7 @@ import { createMetadata, pageKeywords } from "@/config/seo";
 import { breadcrumbList, webPageSchema } from "@/config/schemas";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 
-const title = "Our Process — Discover, Design, Develop & Launch";
+const title = "Our Process: Design & Delivery";
 const description =
   "See how ZEE Sol Tech delivers digital projects: discovery, definition, design, development, launch, and growth support for websites and custom software.";
 

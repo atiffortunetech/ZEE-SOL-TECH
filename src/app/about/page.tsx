@@ -14,7 +14,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { PageContentSection } from "@/components/sections/PageContentSection";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 
-const title = "About Our Digital Product Studio";
+const title = "About Our Studio";
 const description =
   "Learn about ZEE Sol Tech — a digital product studio building brand identities, websites, custom software, CRM platforms, SaaS products, and mobile apps for modern businesses.";
 

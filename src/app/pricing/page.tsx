@@ -9,7 +9,7 @@ import { pricingContent } from "@/config/page-content";
 import { createMetadata, pageKeywords } from "@/config/seo";
 import { breadcrumbList, offerCatalogSchema, webPageSchema } from "@/config/schemas";
 
-const title = "Packages & Pricing for Web, Branding & Software";
+const title = "Packages & Pricing";
 const description =
   "Compare ZEE Sol Tech packages for logo design, websites, e-commerce, CMS, animation, SEO, social, applications, and corporate combo solutions.";
 

@@ -211,13 +211,15 @@ export const pageKeywords = {
 
 export const seoConfig = {
   titleTemplate: `%s | ${siteConfig.name}`,
-  defaultTitle: `${siteConfig.name} | Software House, Web Design & Custom Development`,
+  defaultTitle: `${siteConfig.name} | Web Design & Software`,
   description: siteConfig.description,
   keywords: [...defaultKeywords],
   defaultOgImage: "/heroes/hero-software.jpg",
+  /** Google SERP display budget for title tags */
+  maxTitleLength: 60,
   openGraph: {
     type: "website" as const,
-    locale: siteConfig.locale,
+    locale: "en_US",
     siteName: siteConfig.name,
   },
   twitter: {
@@ -229,6 +231,26 @@ export function absoluteUrl(path = "") {
   const base = siteConfig.url.replace(/\/$/, "");
   if (!path) return base;
   return path.startsWith("http") ? path : `${base}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+/** Keep title tags within SERP length so they are not truncated / flagged. */
+export function formatPageTitle(title?: string, max = seoConfig.maxTitleLength) {
+  const brand = siteConfig.name;
+  const suffix = ` | ${brand}`;
+  if (!title?.trim()) {
+    return seoConfig.defaultTitle.length <= max
+      ? seoConfig.defaultTitle
+      : seoConfig.defaultTitle.slice(0, max - 1).trimEnd();
+  }
+
+  const raw = `${title.trim()}${suffix}`;
+  if (raw.length <= max) return raw;
+
+  const budget = Math.max(12, max - suffix.length);
+  let clipped = title.trim().slice(0, budget);
+  const lastSpace = clipped.lastIndexOf(" ");
+  if (lastSpace > budget * 0.55) clipped = clipped.slice(0, lastSpace);
+  return `${clipped.replace(/[|–—,:;-]+$/g, "").trim()}${suffix}`;
 }
 
 export function createMetadata({
@@ -252,9 +274,7 @@ export function createMetadata({
   publishedTime?: string;
   modifiedTime?: string;
 } = {}): Metadata {
-  const fullTitle = title
-    ? `${title} | ${siteConfig.name}`
-    : seoConfig.defaultTitle;
+  const fullTitle = formatPageTitle(title);
   const desc = description ?? seoConfig.description;
   const url = absoluteUrl(path === "/" ? "" : path);
   const keywordList = [...(keywords?.length ? keywords : seoConfig.keywords)];
@@ -271,7 +291,11 @@ export function createMetadata({
     category: "Technology",
     metadataBase: new URL(siteConfig.url),
     icons: {
-      icon: [{ url: "/icon.png", type: "image/png" }],
+      icon: [
+        { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      ],
       apple: [{ url: "/apple-icon.png", type: "image/png" }],
       shortcut: ["/favicon.png"],
     },

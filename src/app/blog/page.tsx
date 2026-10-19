@@ -10,7 +10,7 @@ import { breadcrumbList, webPageSchema } from "@/config/schemas";
 import { createMetadata, pageKeywords } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 
-const title = "Insights on Software, Web Design & Digital Growth";
+const title = "Blog: Web, Software & Growth Insights";
 const description =
   "Practical articles from ZEE Sol Tech on website development, branding, CRM, SaaS, UI/UX, mobile apps, SEO, and custom software — written for founders and growing teams.";
 

@@ -9,7 +9,7 @@ import { createMetadata, pageKeywords } from "@/config/seo";
 import { breadcrumbList, webPageSchema } from "@/config/schemas";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 
-const title = "Contact Us — Request a Project Quote";
+const title = "Contact Us";
 const description =
   "Contact ZEE Sol Tech to request a quote for logo design, website development, custom software, CRM, SaaS, dashboards, or mobile app projects.";
 

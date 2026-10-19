@@ -17,6 +17,9 @@ function websiteId() {
   return `${siteConfig.url}/#website`;
 }
 
+/** Schema.org / Google expect BCP 47 (en-US), not en_US */
+const IN_LANGUAGE = "en-US";
+
 export function breadcrumbList(items: { name: string; path: string }[]) {
   return {
     "@type": "BreadcrumbList",
@@ -47,48 +50,39 @@ export function faqPageSchema(items: FAQItem[] = faqItems, path = "/faq") {
 
 export function articleSchema(post: BlogPost) {
   const url = absoluteUrl(`/blog/${post.slug}`);
+  const wordCount = [
+    ...post.sections.flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+      ...(section.subsections?.flatMap((sub) => [
+        ...sub.paragraphs,
+        ...(sub.bullets ?? []),
+      ]) ?? []),
+    ]),
+    ...post.faqs.flatMap((faq) => [faq.question, faq.answer]),
+  ]
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+
   return {
     "@type": "BlogPosting",
     "@id": `${url}/#article`,
     headline: post.title,
     description: post.description,
-    image: [absoluteUrl(post.image)],
+    image: absoluteUrl(post.image),
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      logo: {
-        "@type": "ImageObject",
-        url: absoluteUrl("/brand/icon.png"),
-      },
-    },
+    author: { "@id": orgId() },
+    publisher: { "@id": orgId() },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
     },
     articleSection: post.category,
     keywords: post.keywords.join(", "),
-    wordCount: [
-      ...post.sections.flatMap((section) => [
-        ...section.paragraphs,
-        ...(section.bullets ?? []),
-        ...(section.subsections?.flatMap((sub) => [
-          ...sub.paragraphs,
-          ...(sub.bullets ?? []),
-        ]) ?? []),
-      ]),
-      ...post.faqs.flatMap((faq) => [faq.question, faq.answer]),
-    ]
-      .join(" ")
-      .split(/\s+/)
-      .filter(Boolean).length,
-    inLanguage: "en-US",
+    wordCount,
+    inLanguage: IN_LANGUAGE,
     isPartOf: { "@id": `${absoluteUrl("/blog")}/#blog` },
     about: { "@id": orgId() },
   };
@@ -129,7 +123,7 @@ export function webPageSchema({
     description,
     isPartOf: { "@id": websiteId() },
     about: { "@id": orgId() },
-    inLanguage: siteConfig.locale,
+    inLanguage: IN_LANGUAGE,
   };
 }
 
@@ -154,7 +148,10 @@ export function serviceSchema({
     url: absoluteUrl(path),
     serviceType,
     provider: { "@id": orgId() },
-    areaServed: siteConfig.contact.location,
+    areaServed: {
+      "@type": "Country",
+      name: "United States",
+    },
     image: image ? absoluteUrl(image) : absoluteUrl("/heroes/hero-software.jpg"),
   };
 }
@@ -173,29 +170,16 @@ export function offerCatalogSchema(path = "/pricing") {
       "Transparent packages for logo design, websites, e-commerce, SEO, applications, and corporate solutions.",
     url: absoluteUrl(path),
     itemListElement: pricingGroups.flatMap((group) =>
-      group.packages.map((pkg, index) => {
+      group.packages.map((pkg) => {
         const amount = parsePrice(pkg.startingPrice);
         return {
           "@type": "Offer",
-          position: index + 1,
           name: `${group.title} — ${pkg.name}`,
           description: pkg.features.slice(0, 4).join(". "),
-          url: absoluteUrl(pkg.ctaHref.split("?")[0] || "/contact"),
+          url: absoluteUrl("/contact"),
           category: group.title,
-          priceCurrency: pkg.currency,
-          ...(amount
-            ? {
-                price: amount,
-                priceSpecification: {
-                  "@type": "UnitPriceSpecification",
-                  price: amount,
-                  priceCurrency: pkg.currency,
-                  ...(pkg.billingType === "monthly"
-                    ? { billingDuration: "P1M" }
-                    : {}),
-                },
-              }
-            : {}),
+          priceCurrency: "USD",
+          ...(amount ? { price: amount } : {}),
           availability: "https://schema.org/InStock",
           seller: { "@id": orgId() },
         };
@@ -221,7 +205,7 @@ export function creativeWorkSchema(project: {
     genre: project.category,
     creator: { "@id": orgId() },
     publisher: { "@id": orgId() },
-    inLanguage: siteConfig.locale,
+    inLanguage: IN_LANGUAGE,
   };
 }
 
@@ -234,11 +218,12 @@ export function itemListSchema(
     "@type": "ItemList",
     "@id": `${absoluteUrl(path)}/#itemlist`,
     name,
+    numberOfItems: items.length,
     itemListElement: items.map((item) => ({
       "@type": "ListItem",
       position: item.position,
       name: item.name,
-      url: absoluteUrl(item.url),
+      item: absoluteUrl(item.url),
     })),
   };
 }
@@ -261,14 +246,14 @@ export function servicesItemListSchema() {
 
 export function siteGraph() {
   const sameAs = (Object.values(siteConfig.social) as string[]).filter(
-    (url) => Boolean(url) && !url.startsWith("["),
+    (url) => Boolean(url) && url.startsWith("http"),
   );
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["Organization", "ProfessionalService"],
+        "@type": "Organization",
         "@id": orgId(),
         name: siteConfig.name,
         legalName: siteConfig.legalName,
@@ -283,10 +268,9 @@ export function siteGraph() {
         email: siteConfig.contact.email,
         telephone: siteConfig.contact.phone,
         description: siteConfig.description,
-        foundingLocation: siteConfig.contact.location,
         areaServed: {
           "@type": "Country",
-          name: siteConfig.contact.location,
+          name: "United States",
         },
         contactPoint: [
           {
@@ -295,7 +279,7 @@ export function siteGraph() {
             email: siteConfig.contact.email,
             telephone: siteConfig.contact.phone,
             availableLanguage: ["English"],
-            areaServed: siteConfig.contact.location,
+            areaServed: "US",
           },
         ],
         ...(sameAs.length ? { sameAs } : {}),
@@ -311,7 +295,6 @@ export function siteGraph() {
           "E-commerce development",
         ],
         slogan: siteConfig.slogan ?? siteConfig.tagline,
-        priceRange: "$$",
       },
       {
         "@type": "WebSite",
@@ -321,8 +304,7 @@ export function siteGraph() {
         alternateName: ["ZEE Sol Tech", "zeesoltech", "ZEE SolTech"],
         description: siteConfig.description,
         publisher: { "@id": orgId() },
-        inLanguage: "en-US",
-        copyrightHolder: { "@id": orgId() },
+        inLanguage: IN_LANGUAGE,
       },
       {
         "@type": "ProfessionalService",
@@ -330,8 +312,14 @@ export function siteGraph() {
         name: siteConfig.name,
         url: siteConfig.url,
         description: siteConfig.description,
-        provider: { "@id": orgId() },
         image: absoluteUrl("/heroes/hero-software.jpg"),
+        priceRange: "$$",
+        telephone: siteConfig.contact.phone,
+        email: siteConfig.contact.email,
+        areaServed: {
+          "@type": "Country",
+          name: "United States",
+        },
         serviceType: [
           "Logo design",
           "Brand identity design",
@@ -344,10 +332,10 @@ export function siteGraph() {
           "UI UX design",
           "E-commerce development",
         ],
-        areaServed: siteConfig.contact.location,
         hasOfferCatalog: {
           "@id": `${absoluteUrl("/pricing")}/#offers`,
         },
+        parentOrganization: { "@id": orgId() },
       },
     ],
   };

@@ -6,7 +6,7 @@ import {
   getProjectBySlug,
   portfolioProjects,
 } from "@/config/portfolio";
-import { breadcrumbList, creativeWorkSchema, webPageSchema } from "@/config/schemas";
+import { breadcrumbList } from "@/config/schemas";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { CTASection } from "@/components/sections/CTASection";
@@ -26,19 +26,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProjectBySlug(slug);
   if (!project) return createMetadata({ title: "Case Study" });
   return createMetadata({
-    title: `${project.title} — ${project.category} Case Study`,
-    description: `${project.summary} Explore this ${project.category.toLowerCase()} project from ZEE Sol Tech, a software house and digital product studio.`,
+    title: `${project.title} Case Study`,
+    description: `${project.summary} Explore this ${project.category.toLowerCase()} project from ZEE Sol Tech.`,
     path: `/portfolio/${project.slug}`,
     image: project.image,
     type: "article",
+    // Gallery detail pages are thin templates and unused by the portfolio grid
+    // (lightbox). Keep them reachable but out of the index / sitemap.
+    noIndex: true,
     keywords: [
       project.title,
       project.category,
       "case study",
       "ZEE Sol Tech portfolio",
-      "digital agency work",
-      "branding and web design examples",
-      "software house portfolio",
     ],
   });
 }
@@ -64,12 +64,6 @@ export default async function CaseStudyPage({ params }: Props) {
       <SchemaScript
         id="case-study-jsonld"
         data={[
-          webPageSchema({
-            path: `/portfolio/${project.slug}`,
-            name: `${project.title} — ${project.category} Case Study`,
-            description: project.summary,
-          }),
-          creativeWorkSchema(project),
           breadcrumbList([
             { name: "Home", path: "/" },
             { name: "Portfolio", path: "/portfolio" },

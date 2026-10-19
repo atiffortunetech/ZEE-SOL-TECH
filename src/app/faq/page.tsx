@@ -10,7 +10,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { PageContentSection } from "@/components/sections/PageContentSection";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 
-const title = "FAQ — Software, Websites & Project Questions";
+const title = "FAQ: Projects & Services";
 const description =
   "Answers about ZEE Sol Tech software development, websites, CRMs, timelines, pricing, hosting, NDAs, and how our digital agency collaborates with clients.";
 

@@ -1,12 +1,20 @@
 import { getAllBlogPosts } from "@/config/blog";
 import { siteConfig } from "@/config/site";
-import { portfolioProjects } from "@/config/portfolio";
 
+/**
+ * Only indexable, internally linked routes.
+ * Thin gallery case-study URLs (/portfolio/[slug]) are noindexed and omitted
+ * so they do not create hundreds of orphan sitemap entries.
+ */
 export default function sitemap() {
   const base = siteConfig.url.replace(/\/$/, "");
   const now = new Date();
 
-  const staticRoutes: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] = [
+  const staticRoutes: {
+    path: string;
+    priority: number;
+    changeFrequency: "weekly" | "monthly" | "yearly";
+  }[] = [
     { path: "", priority: 1, changeFrequency: "weekly" },
     { path: "/services", priority: 0.9, changeFrequency: "weekly" },
     { path: "/services/branding", priority: 0.85, changeFrequency: "monthly" },
@@ -36,12 +44,6 @@ export default function sitemap() {
       lastModified: now,
       changeFrequency: route.changeFrequency,
       priority: route.priority,
-    })),
-    ...portfolioProjects.map((project) => ({
-      url: `${base}/portfolio/${project.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.55,
     })),
     ...getAllBlogPosts().map((post) => ({
       url: `${base}/blog/${post.slug}`,

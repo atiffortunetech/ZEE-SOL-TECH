@@ -16,7 +16,7 @@ import {
   webPageSchema,
 } from "@/config/schemas";
 
-const title = "Digital & Software Development Services";
+const title = "Digital & Software Services";
 const description =
   "Explore ZEE Sol Tech services: logo design, brand identity, UI/UX, website development, e-commerce, custom software, CRM, SaaS, dashboards, and mobile apps.";
 

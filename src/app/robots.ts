@@ -6,6 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // Thin gallery detail URLs — portfolio UX is the /portfolio lightbox grid
+      disallow: ["/portfolio/"],
     },
     sitemap: `${siteConfig.url.replace(/\/$/, "")}/sitemap.xml`,
   };
