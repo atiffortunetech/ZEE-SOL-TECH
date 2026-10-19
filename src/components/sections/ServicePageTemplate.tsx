@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { ServicePageConfig } from "@/config/service-pages";
+import { getBlogPostsForService } from "@/config/blog";
 import { getPricingGroup } from "@/config/packages";
 import { faqPageSchema } from "@/config/schemas";
 import { PageHero } from "@/components/sections/PageHero";
 import { PageContentSection } from "@/components/sections/PageContentSection";
 import { CTASection } from "@/components/sections/CTASection";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { RelatedInsights } from "@/components/seo/RelatedInsights";
 import { ServicePageSchema } from "@/components/seo/ServicePageSchema";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 import { Container } from "@/components/ui/Container";
@@ -26,6 +29,8 @@ export function ServicePageTemplate({ service }: { service: ServicePageConfig })
     answer: item.answer,
   }));
 
+  const relatedPosts = getBlogPostsForService(service.path, 3);
+
   return (
     <>
       <ServicePageSchema
@@ -40,6 +45,15 @@ export function ServicePageTemplate({ service }: { service: ServicePageConfig })
         data={[faqPageSchema(faqItems, service.path)]}
       />
 
+      <Breadcrumbs
+        className="pt-20 md:pt-24"
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+          { name: service.eyebrow },
+        ]}
+      />
+
       <PageHero
         eyebrow={service.eyebrow}
         title={service.heroTitle}
@@ -49,6 +63,7 @@ export function ServicePageTemplate({ service }: { service: ServicePageConfig })
         primaryLabel={service.primaryLabel}
         secondaryHref={service.secondaryHref}
         secondaryLabel={service.secondaryLabel}
+        flushTop
       />
 
       <section className="border-b border-border bg-white py-8 md:py-10">
@@ -247,6 +262,11 @@ export function ServicePageTemplate({ service }: { service: ServicePageConfig })
           </div>
         </Container>
       </section>
+
+      <RelatedInsights
+        posts={relatedPosts}
+        title={`Guides related to ${service.eyebrow.toLowerCase()}`}
+      />
 
       <CTASection
         title={service.ctaTitle}

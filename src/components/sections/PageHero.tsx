@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { cn } from "@/lib/utils";
 
 export function PageHero({
   eyebrow,
@@ -11,6 +12,7 @@ export function PageHero({
   primaryLabel,
   secondaryHref,
   secondaryLabel,
+  flushTop = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -20,9 +22,16 @@ export function PageHero({
   primaryLabel?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
+  /** Use when a breadcrumb bar already offsets the fixed header */
+  flushTop?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden pt-24 md:pt-28">
+    <section
+      className={cn(
+        "relative overflow-hidden",
+        flushTop ? "pt-0" : "pt-24 md:pt-28",
+      )}
+    >
       <div className="absolute inset-0">
         <Image
           src={image}

@@ -16,8 +16,11 @@ import { PageContentSection } from "@/components/sections/PageContentSection";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RelatedInsights } from "@/components/seo/RelatedInsights";
 import { SchemaScript } from "@/components/seo/SchemaScript";
+import { SeoTopicCluster } from "@/components/seo/SeoTopicCluster";
 import { siteConfig } from "@/config/site";
+import { getFeaturedBlogPosts } from "@/config/blog";
 import { faqItems } from "@/config/faq";
 import { homeContent } from "@/config/page-content";
 import { createMetadata, pageKeywords } from "@/config/seo";
@@ -25,7 +28,7 @@ import { faqPageSchema, webPageSchema } from "@/config/schemas";
 
 const homeTitle = "Web Design & Custom Software";
 const homeDescription =
-  "ZEE Sol Tech builds brand identities, conversion-focused websites, custom software, CRM systems, SaaS platforms, dashboards, and mobile apps for startups and growing businesses.";
+  "ZEE Sol Tech is a software house for logo design, website development, custom software, CRM, SaaS, dashboards, and mobile apps — built to convert and scale.";
 
 export const metadata: Metadata = createMetadata({
   title: homeTitle,
@@ -35,6 +38,8 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default function HomePage() {
+  const featuredPosts = getFeaturedBlogPosts().slice(0, 3);
+
   return (
     <>
       <SchemaScript
@@ -50,6 +55,7 @@ export default function HomePage() {
       />
       <Hero />
       <IndustryMarquee />
+      <SeoTopicCluster />
       <PracticesSection />
       <FeaturedWork />
       <CapabilitiesSection />
@@ -59,6 +65,11 @@ export default function HomePage() {
       <MethodSection />
       <PackagesTeaser />
       <PageContentSection content={homeContent} tone="white" image="/sections/section-studio-collab.jpg" />
+      <RelatedInsights
+        posts={featuredPosts}
+        eyebrow="From the blog"
+        title="Practical guides for founders and growing teams"
+      />
 
       <section className="bg-background py-20 md:py-28">
         <Container>

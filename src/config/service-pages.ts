@@ -84,7 +84,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   branding: {
     slug: "branding",
     path: "/services/branding",
-    metaTitle: "Logo Design & Brand Identity Agency | ZEE Sol Tech",
+    metaTitle: "Logo Design & Brand Identity",
     metaDescription:
       "Hire ZEE Sol Tech for professional logo design, brand identity systems, and brand guidelines. Corporate branding packages for websites, packaging, social, and product UI.",
     keywords: [
@@ -187,7 +187,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "web-development": {
     slug: "web-development",
     path: "/services/web-development",
-    metaTitle: "Website Design & Development Company | SEO-Ready Sites",
+    metaTitle: "Website Design & Development",
     metaDescription:
       "ZEE Sol Tech is a website development company for SEO-friendly business websites, CMS sites, and e-commerce stores focused on speed, trust, and conversion.",
     keywords: [
@@ -299,7 +299,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "software-development": {
     slug: "software-development",
     path: "/services/software-development",
-    metaTitle: "Custom Software Development Company | Business Systems",
+    metaTitle: "Custom Software Development",
     metaDescription:
       "Custom software development for inventory, HR, logistics, automation, and internal platforms. Hire ZEE Sol Tech to build business software around your operations.",
     keywords: [
@@ -401,7 +401,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   crm: {
     slug: "crm",
     path: "/services/crm",
-    metaTitle: "Custom CRM Development Company | Sales Pipeline Software",
+    metaTitle: "Custom CRM Development",
     metaDescription:
       "Custom CRM development for sales pipelines, lead management, automation, and team workflows. CRM software built for SMEs and growing businesses by ZEE Sol Tech.",
     keywords: [
@@ -513,7 +513,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "dashboard-development": {
     slug: "dashboard-development",
     path: "/services/dashboard-development",
-    metaTitle: "Dashboard Development Company | Analytics & KPI Dashboards",
+    metaTitle: "Dashboard & KPI Development",
     metaDescription:
       "Custom dashboard development for sales, finance, HR, inventory, and operations. KPI dashboards and admin panels engineered by ZEE Sol Tech.",
     keywords: [
@@ -615,7 +615,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "mobile-app-development": {
     slug: "mobile-app-development",
     path: "/services/mobile-app-development",
-    metaTitle: "Mobile App Development Company | iOS, Android & Cross-Platform",
+    metaTitle: "Mobile App Development",
     metaDescription:
       "Mobile app development company for iOS, Android, and cross-platform apps. MVP to scalable products with polished UX and reliable backends from ZEE Sol Tech.",
     keywords: [
@@ -718,7 +718,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "saas-development": {
     slug: "saas-development",
     path: "/services/saas-development",
-    metaTitle: "SaaS Development Company | Multi-Tenant MVP & Platforms",
+    metaTitle: "SaaS Development Company",
     metaDescription:
       "SaaS development company for MVPs and multi-tenant platforms — auth, billing, admin panels, APIs, and analytics engineered by ZEE Sol Tech.",
     keywords: [
@@ -820,7 +820,7 @@ export const servicePages: Record<string, ServicePageConfig> = {
   "ui-ux": {
     slug: "ui-ux",
     path: "/services/ui-ux",
-    metaTitle: "UI/UX Design Agency | Product Design & Design Systems",
+    metaTitle: "UI/UX Design Agency",
     metaDescription:
       "UI/UX design agency for websites, SaaS, dashboards, and mobile apps. UX research, wireframes, prototypes, and design systems from ZEE Sol Tech.",
     keywords: [

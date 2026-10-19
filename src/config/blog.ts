@@ -75,3 +75,31 @@ export function formatBlogDate(iso: string) {
     year: "numeric",
   }).format(new Date(iso));
 }
+
+/** Map service routes to related articles for internal linking / topical authority. */
+const serviceBlogMap: Record<string, string[]> = {
+  "/services/web-development": [
+    "how-to-choose-a-website-development-company",
+    "seo-friendly-website-checklist",
+    "ecommerce-website-features-that-actually-sell",
+  ],
+  "/services/branding": ["logo-design-mistakes-that-hurt-your-brand"],
+  "/services/crm": ["custom-crm-vs-off-the-shelf"],
+  "/services/saas-development": ["build-a-saas-mvp-without-wasting-budget"],
+  "/services/ui-ux": ["ui-ux-design-that-actually-converts"],
+  "/services/mobile-app-development": ["mobile-app-mvp-checklist-for-founders"],
+  "/services/dashboard-development": ["business-dashboards-that-drive-decisions"],
+  "/services/software-development": ["when-you-need-custom-software-development"],
+};
+
+export function getBlogPostsForService(servicePath: string, limit = 3) {
+  const slugs = serviceBlogMap[servicePath] ?? [];
+  const mapped = slugs
+    .map((slug) => getBlogPostBySlug(slug))
+    .filter((post): post is BlogPost => Boolean(post));
+  if (mapped.length >= limit) return mapped.slice(0, limit);
+  const extras = getAllBlogPosts().filter(
+    (post) => !mapped.some((m) => m.slug === post.slug),
+  );
+  return [...mapped, ...extras].slice(0, limit);
+}

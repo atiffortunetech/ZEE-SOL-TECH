@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowUpRight, Clock3 } from "lucide-react";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogPostContent } from "@/components/blog/BlogPostContent";
 import { CTASection } from "@/components/sections/CTASection";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { SchemaScript } from "@/components/seo/SchemaScript";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -73,7 +74,16 @@ export default async function BlogPostPage({
       />
 
       <article>
-        <header className="relative overflow-hidden bg-slate-950 pt-24 text-white md:pt-28">
+        <Breadcrumbs
+          className="pt-20 md:pt-24"
+          tone="dark"
+          items={[
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title },
+          ]}
+        />
+        <header className="relative overflow-hidden bg-slate-950 text-white">
           <div className="absolute inset-0">
             <Image
               src={post.image}

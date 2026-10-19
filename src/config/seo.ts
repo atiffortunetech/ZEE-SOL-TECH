@@ -233,6 +233,15 @@ export function absoluteUrl(path = "") {
   return path.startsWith("http") ? path : `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+/** Keep meta descriptions in the ~155 character SERP window. */
+export function formatMetaDescription(description: string, max = 155) {
+  const clean = description.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const clipped = clean.slice(0, max - 1);
+  const lastSpace = clipped.lastIndexOf(" ");
+  return `${(lastSpace > 80 ? clipped.slice(0, lastSpace) : clipped).trimEnd()}…`;
+}
+
 /** Keep title tags within SERP length so they are not truncated / flagged. */
 export function formatPageTitle(title?: string, max = seoConfig.maxTitleLength) {
   const brand = siteConfig.name;
@@ -275,10 +284,11 @@ export function createMetadata({
   modifiedTime?: string;
 } = {}): Metadata {
   const fullTitle = formatPageTitle(title);
-  const desc = description ?? seoConfig.description;
+  const desc = formatMetaDescription(description ?? seoConfig.description);
   const url = absoluteUrl(path === "/" ? "" : path);
   const keywordList = [...(keywords?.length ? keywords : seoConfig.keywords)];
   const ogImage = absoluteUrl(image ?? seoConfig.defaultOgImage);
+  const verificationId = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     title: fullTitle,
@@ -290,6 +300,9 @@ export function createMetadata({
     publisher: siteConfig.name,
     category: "Technology",
     metadataBase: new URL(siteConfig.url),
+    ...(verificationId
+      ? { verification: { google: verificationId } }
+      : {}),
     icons: {
       icon: [
         { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
