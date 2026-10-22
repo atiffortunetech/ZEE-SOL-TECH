@@ -13,6 +13,7 @@ import { createMetadata, pageKeywords } from "@/config/seo";
 import "./globals.css";
 
 const GTM_ID = "GTM-MM2MSBLN";
+const GA_MEASUREMENT_ID = "G-S88P30MR8M";
 
 const display = Syne({
   variable: "--font-display",
@@ -42,6 +43,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </head>
       <body className="font-body relative flex min-h-full flex-col bg-background text-foreground">
         <noscript>
           <iframe
